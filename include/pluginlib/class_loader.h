@@ -35,8 +35,7 @@
 #include "pluginlib/class_desc.h"
 #include "pluginlib/class_loader_base.h"
 #include "pluginlib/pluginlib_exceptions.h"
-#include "ros/console.h"
-#include "ros/package.h"
+//#include "ros/package.h"
 #include "tinyxml.h"
 
 //Note: pluginlib has traditionally utilized a "lookup name" for classes that does not match its real C++ name. This was

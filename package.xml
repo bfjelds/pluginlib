@@ -1,4 +1,5 @@
-<package>
+<?xml version='1.0' encoding='utf-8'?>
+<package format="2">
   <name>pluginlib</name>
   <version>1.10.3</version>
   <description>
@@ -16,22 +17,21 @@
   <author>Dirk Thomas</author>
   <author>Mirza Shah</author>
 
-  <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
+  <buildtool_depend version_gte="0.5.68">ament</buildtool_depend>
 
   <build_depend>boost</build_depend>
   <build_depend>cmake_modules</build_depend>
   <build_depend>class_loader</build_depend>
-  <build_depend>rosconsole</build_depend>
-  <build_depend version_gte="1.11.1">roslib</build_depend>
+  <build_depend>rospack</build_depend>
   <build_depend>tinyxml</build_depend>
 
-  <run_depend>boost</run_depend>
-  <run_depend>class_loader</run_depend>
-  <run_depend>rosconsole</run_depend>
-  <run_depend version_gte="1.11.1">roslib</run_depend>
-  <run_depend>tinyxml</run_depend>
+  <exec_depend>boost</exec_depend>
+  <exec_depend>class_loader</exec_depend>
+  <exec_depend>rospack</exec_depend>
+  <exec_depend>tinyxml</exec_depend>
 
   <export>
-    <pluginlib plugin="${prefix}/test/test_plugins.xml"/>
+    <pluginlib plugin="${prefix}/test/test_plugins.xml" />
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

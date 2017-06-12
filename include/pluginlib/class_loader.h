@@ -88,7 +88,7 @@ namespace pluginlib
          * @exception pluginlib::CreateClassException Thrown when the class cannot be instantiated
          * @return An instance of the class
          */
-        boost::shared_ptr<T> createInstance(const std::string& lookup_name);
+        std::shared_ptr<T> createInstance(const std::string& lookup_name);
 
         /**
          * @brief  Creates an instance of a desired class (which implicitly calls loadLibraryForClass() to increment the library counter).

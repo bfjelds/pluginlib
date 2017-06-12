@@ -1,5 +1,6 @@
 #include <pluginlib/class_loader.h>
 #include "test_base.h"
+#include "ros2_console/console.hpp"
 #include <gtest/gtest.h>
 
 TEST(PluginlibTest, unknownPlugin)
@@ -8,7 +9,7 @@ TEST(PluginlibTest, unknownPlugin)
 
   try
   {
-    boost::shared_ptr<test_base::Fubar> foo = test_loader.createInstance("pluginlib/foobar");
+    std::shared_ptr<test_base::Fubar> foo = test_loader.createInstance("pluginlib/foobar");
     foo->initialize(10.0);
   }
   catch(pluginlib::LibraryLoadException& ex)
@@ -31,7 +32,7 @@ TEST(PluginlibTest, misspelledPlugin)
 
   try
   {
-    boost::shared_ptr<test_base::Fubar> foo = bad_test_loader.createInstance("pluginlib/foo");
+    std::shared_ptr<test_base::Fubar> foo = bad_test_loader.createInstance("pluginlib/foo");
     foo->initialize(10.0);
   }
   catch(pluginlib::LibraryLoadException& ex)
@@ -72,7 +73,7 @@ TEST(PluginlibTest, brokenPlugin)
 
   try
   {
-    boost::shared_ptr<test_base::Fubar> none = test_loader.createInstance("pluginlib/none");
+    std::shared_ptr<test_base::Fubar> none = test_loader.createInstance("pluginlib/none");
     none->initialize(10.0);
   }
   catch(pluginlib::PluginlibException& ex)
@@ -98,7 +99,7 @@ TEST(PluginlibTest, workingPlugin)
   
   try
   {
-    boost::shared_ptr<test_base::Fubar> foo = test_loader.createInstance("pluginlib/foo");
+    std::shared_ptr<test_base::Fubar> foo = test_loader.createInstance("pluginlib/foo");
     foo->initialize(10.0);
     EXPECT_EQ(foo->result(),100.0);
 
@@ -126,9 +127,9 @@ TEST(PluginlibTest, createUnmanagedInstanceAndUnloadLibrary)
   delete inst;
 
   ROS_INFO( "Checking if plugin is loaded with isClassLoaded..." );
-  if( pl.isClassLoaded( "pluginlib/foo" ) )
+  if( pl.isClassLoaded( "pluginlib/foo" ) ) {
     ROS_INFO( "Class is loaded" );
-  else
+  } else
   {
     FAIL() <<  "Library containing class should be loaded but isn't.";
   }
@@ -151,13 +152,13 @@ TEST(PluginlibTest, createManagedInstanceAndUnloadLibrary)
 
   ROS_INFO( "Instantiating plugin..." );
   {
-    boost::shared_ptr<test_base::Fubar> inst = pl.createInstance("pluginlib/foo");
+    std::shared_ptr<test_base::Fubar> inst = pl.createInstance("pluginlib/foo");
   }
 
   ROS_INFO( "Checking if plugin is loaded with isClassLoaded..." );
-  if( pl.isClassLoaded( "pluginlib/foo" ) )
+  if( pl.isClassLoaded( "pluginlib/foo" ) ) {
     ROS_INFO( "Class is loaded" );
-  else
+  } else
   {
     FAIL() <<  "Library containing class should be loaded but isn't.";
   }

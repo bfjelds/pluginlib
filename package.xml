@@ -23,13 +23,17 @@
   <build_depend>cmake_modules</build_depend>
   <build_depend>class_loader</build_depend>
   <build_depend>rospack</build_depend>
+  <build_depend>ros2_console</build_depend>
   <build_depend>tinyxml</build_depend>
 
   <exec_depend>boost</exec_depend>
   <exec_depend>class_loader</exec_depend>
   <exec_depend>rospack</exec_depend>
+  <exec_depend>ros2_console</exec_depend>
   <exec_depend>tinyxml</exec_depend>
 
+  <test_depend>ament_cmake_gtest</test_depend>
+  
   <export>
     <pluginlib plugin="${prefix}/test/test_plugins.xml" />
     <build_type>ament_cmake</build_type>

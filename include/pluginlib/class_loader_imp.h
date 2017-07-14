@@ -274,6 +274,8 @@ namespace pluginlib
     //TODO: This needs to be replaced with an api call
     std::vector<std::string> install_paths = (parseToStringVector(callCommandLine("echo $AMENT_PREFIX_PATH")));
 
+    const std::string path_separator = getPathSeparator();
+
     // Add build directories (replace install with build)
     const int numPaths = install_paths.size();
     for (int i = 0; i < numPaths; ++i) {
@@ -289,6 +291,9 @@ namespace pluginlib
       for (it = tokens.begin(); it != tokens.end(); ++it) {
 	const std::string current_path = (*it);
 	paths.push_back(current_path);  // Add the install path
+
+	// Ament stores libraries under install/lib
+	paths.push_back(current_path + path_separator + "lib");
 	
 	// Rename the install path to be a build path
 	const std::string build_path = std::regex_replace(current_path, std::regex("/install$"), "/build");
@@ -331,7 +336,8 @@ namespace pluginlib
       std::string current_path = all_paths_without_extension.at(c);
       all_paths.push_back(current_path + path_separator + library_name_with_extension);
       all_paths.push_back(
-          current_path + path_separator + exporting_package_name + stripped_library_name_with_extension);
+          current_path + path_separator + exporting_package_name +
+	  path_separator + stripped_library_name_with_extension);
       all_paths.push_back(current_path + path_separator + stripped_library_name_with_extension);
       // We're in debug mode, try debug libraries as well
       if(debug_library_suffix) {

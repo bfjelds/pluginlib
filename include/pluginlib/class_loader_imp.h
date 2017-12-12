@@ -49,6 +49,12 @@
 #include <stdexcept>
 #include <regex>
 
+#ifdef WIN32
+#include <windows.h>
+#define pclose _pclose
+#define popen _popen
+#endif
+
 namespace pluginlib 
 {
   template <class T>
@@ -106,6 +112,7 @@ namespace pluginlib
     return result;
   }
 
+#ifndef WIN32
   template <class T>
   T* ClassLoader<T>::createClassInstance(const std::string& lookup_name, bool auto_load)
   /***************************************************************************/
@@ -133,7 +140,8 @@ namespace pluginlib
       throw(pluginlib::CreateClassException(ex.what()));
     }
   }
-  
+#endif
+
   template <class T>
   std::shared_ptr<T> ClassLoader<T>::createInstance(const std::string& lookup_name)
   /***************************************************************************/
@@ -532,7 +540,7 @@ namespace pluginlib
   /***************************************************************************/
   {
 #if BOOST_FILESYSTEM_VERSION >= 3
-    return(boost::filesystem::path("/").native());
+    return(boost::filesystem::path("/").string());
 #else
     return(boost::filesystem::path("/").external_file_string());
 #endif

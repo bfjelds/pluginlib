@@ -12,8 +12,9 @@ find_package(rospack REQUIRED)
 find_package(ros2_console REQUIRED)
 find_package(cmake_modules REQUIRED)
 
+set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
-find_package(TinyXML REQUIRED)
+find_package(TinyXML REQUIRED HINTS "*.lib") # add hint seems to allow debug lib to be found when appropriate
 
 set(INCLUDE_DIRS include ${ament_cmake_INCLUDE_DIRS}
   ${class_loader_INCLUDE_DIRS} ${rospack_INCLUDE_DIRS}
@@ -27,9 +28,15 @@ set(LIBRARY_DIRS ${ament_cmake_LIBRARY_DIRS} ${class_loader_LIBRARY_DIRS}
 
 link_directories(${LIBRARY_DIRS})
 
+if(NOT WIN32)
 set(LIBS dl ${ament_cmake_LIBRARIES} ${class_loader_LIBRARIES}
   ${rospack_LIBRARIES} ${ros2_console_LIBRARIES} ${cmake_modules_LIBRARIES}
   ${Boost_LIBRARIES} ${TinyXML_LIBRARIES})
+else()
+set(LIBS ${ament_cmake_LIBRARIES} ${class_loader_LIBRARIES}
+  ${rospack_LIBRARIES} ${ros2_console_LIBRARIES} ${cmake_modules_LIBRARIES}
+  ${Boost_LIBRARIES} ${TinyXML_LIBRARIES})
+endif()
 
 add_executable(plugin_tool src/plugin_tool.cpp)
 target_link_libraries(plugin_tool ${LIBS})
@@ -66,6 +73,7 @@ if(BUILD_TESTING)
   endif()
 endif()
 
+ament_export_dependencies(boost)
 ament_export_dependencies(ament_cmake)
 ament_export_dependencies(class_loader)
 ament_export_dependencies(rospack)

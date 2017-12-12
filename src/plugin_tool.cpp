@@ -33,7 +33,13 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#ifndef WIN32
 #include <dlfcn.h>
+#else
+#include <windows.h>
+#define pclose _pclose
+#define popen _popen
+#endif
 
 using std::cout;
 using std::endl;
@@ -162,7 +168,11 @@ void generateAndLoadTypedPluginInterface()
 	}
 
 	cout << "Loading shared object into memory." << endl;
+#ifndef WIN32
 	g_class_loader_library_handle = dlopen("libTypedPluginInterface.so", RTLD_LAZY);
+#else
+	g_class_loader_library_handle = LoadLibraryW(L"libTypedPluginInterface.dll");
+#endif
 	if(g_class_loader_library_handle)
 		cout << "Shared object successfully loaded into memory." << endl;		
 	else
@@ -175,7 +185,11 @@ void generateAndLoadTypedPluginInterface()
 template <typename T> T getPluginFunction(const std::string& function_name)
 /*****************************************************************************/
 {
+#ifndef WIN32
 	void* ptr = dlsym(g_class_loader_library_handle, function_name.c_str());
+#else
+	void* ptr = GetProcAddress((HMODULE)g_class_loader_library_handle, function_name.c_str());
+#endif
 	return((T)(ptr));
 }
 

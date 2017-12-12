@@ -70,7 +70,8 @@ namespace pluginlib
          */
         ~ClassLoader();
 
-        /**
+#ifndef WIN32
+		/**
          * @brief  Creates an instance of a desired class, optionally loading the associated library automatically if necessary
          * @param  lookup_name The name of the class to load
          * @param  auto_load Specifies whether or not to automatically load the library containing the class, set to true by default
@@ -80,6 +81,7 @@ namespace pluginlib
          * @deprecated use either createInstance() or createUnmanagedInstance().
          */
         __attribute__((deprecated)) T* createClassInstance(const std::string& lookup_name, bool auto_load = true);
+#endif
 
         /**
          * @brief  Creates an instance of a desired class (which implicitly calls loadLibraryForClass() to increment the library counter). Deleting the instance and calling unloadLibraryForClass() is automatically handled by the shared pointer.
